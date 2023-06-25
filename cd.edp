@@ -1,0 +1,25 @@
+mesh Th = square(19,19); // generate mesh
+fespace Vh(Th, P1); // generate finite element space
+Vh u, v;
+varf m(u,v) = int2d(Th)(u*v)+ on(1,2,3,4, u=0);
+// generate matrix M
+matrix M = m(Vh, Vh);
+{
+    ofstream file("matrix/M_ff.txt");
+    file << M << endl;
+}
+
+// generate matrix K
+real[int] alpha = [0.001, 0.001, 0.1, 0.1];
+real[int] beta = [0.2, 0.4, 0.2, 0.4];
+
+for (int i=0; i<4; i++){
+    varf k(u,v) = - int2d(Th)(alpha[i]*(dx(u)*dx(v) + dy(u)*dy(v)))
+            + int2d(Th)(beta[i]*(dx(u)*v + dy(u)*v))
+            + on(1,2,3,4, u=0);
+    matrix K = k(Vh, Vh);
+    {
+        ofstream file("matrix/K" + i + "_ff.txt");
+        file << K << endl;
+    }
+}
