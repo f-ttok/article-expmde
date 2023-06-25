@@ -10,7 +10,7 @@ matrix M = m(Vh, Vh);
 }
 
 // generate matrix K
-real[int] alpha = [0.001, 0.001, 0.1, 0.1];
+real[int] alpha = [0.001, 0.001, 0.01, 0.01];
 real[int] beta = [0.2, 0.4, 0.2, 0.4];
 
 for (int i=0; i<4; i++){
